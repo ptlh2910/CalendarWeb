@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheets/login.css" />
+    <title>Sign in & Sign up Form</title>
+    <!-- Favicon  -->
+    <link rel="icon" href="images/icon.svg">
+</head>
+<body style="background-color: #8FBC8F;">
+    <div class="container" style="background-color: #8FBC8F;">
+        <div class="forms-container">
+            <div class="signin-signup">
+                <form action="/auth" class="sign-in-form" method="POST">
+                            <h2 class="title" style="color:#fff;">Sign in</h2>
+                            <div class="input-field">
+                                <i class="fas fa-user"></i>
+                                <input type="text" name="username" placeholder="Username" required />
+                            </div>
+                            <div class="input-field">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" name="password" placeholder="Password" required />
+                            </div>
+                            <input type="submit" value="Login" class="btn solid" style="background-color: #167e56;" />
+
+                            <a href="/forgot" class="forgot" style="color: #fff; font-weight: bold;">Forgot Password</a>
+                </form>
+
+                <form action="register" class="sign-up-form" id='form-1' method="POST">
+                    <h2 class="title" style="color: #fff;" >Sign up</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input id="fullname" type="text" placeholder="UserName" name="username" required />
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input id="email" type="email" placeholder="Email" name="email" required />
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input id="password" type="password" placeholder="Password" name="password" required />
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input id="confirm" type="password" placeholder="confirm" name='confirm' />
+                        <span class="form-message"></span>
+                    </div>
+                    <input type="submit" class="btn transparent" value="Sign up"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="panels-container" style="margin-left: -11%; margin-top: -8%;">
+            <div class="panel left-panel">
+                <div class="content" style="">
+                    <h3 style="color: #fff;">Hello guy!</h3>
+                    <p style="color: #fff;">
+                        Enter your personal details and start journey with us
+                    </p>
+                    <button class="btn transparent" id="sign-up-btn">
+                        Sign up
+                    </button>
+                </div>
+            </div>
+            <div class="panel right-panel" style="margin-right: -15%; margin-top: 8%;">
+                <div class="content">
+                    <h3 style="color: #fff;">Welcome Back!</h3>
+                    <p style="color: #fff;">
+                        To keep connected with us please login with your personal info
+                    </p>
+                    <button class="btn transparent" id="sign-in-btn">
+                        Sign in
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/javascripts/login.js"></script>
+    <script>
+        Validator({
+            form: '#form-1',
+            errorSelector: '.form-message',
+            rules: [
+                Validator.isRequired("#fullname", 'Please enter'),
+                Validator.isEmail("#email", 'Please enter the correct format email'),
+                Validator.isMinLen('#password', 'Please enter at least 6 characters'),
+                Validator.isMinLen('#confirm', 'Please enter at least 6 characters')
+            ]
+        });
+    </script>
+</body>
+
+</html>

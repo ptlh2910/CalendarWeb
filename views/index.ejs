@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Website Title -->
+    <title>Canlendar</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/stylesheets/index.css" />
+    <!-- Favicon  -->
+    <link rel="icon" href="images/icon_2.png">
+</head>
+
+<body>
+    <div class="row">
+        <div class="column-3">
+            <div class="text-container">
+                <!-- sử dụng biển check để xem đã đăng nhập chưa -->
+                <% if(username) { %>
+                    <h1 style="color:#fff; font-size: 550%; text-align: center;">Hello</h1>
+                    <p class="p-large" style="color:#fff; font-weight: bold; text-align: center;"> <%= username %> </p>
+                <% } %>   
+            </div>
+            <p class="p-large" style="color:#fff; font-weight: bold; text-align: center;">
+                <button onclick ="location.href='/login.html';"  style=" font-size:20px; background-color: #167e56; border-color: #167e56;">
+                    LOGIN
+                </button>
+            </p>
+            <!-- end of text-container -->
+        </div>
+
+        <div class="column-6">
+            <div>
+                <img class="img-fluid"  style="width: 80%;" src="/images/icon.png" alt="alternative">
+            </div>
+            <!-- end of image-container -->
+        </div>
+        <!-- end of col -->
+    </div>
+    <!-- end of row -->
+
+</body>
+
+</html>

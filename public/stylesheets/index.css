@@ -1,0 +1,75 @@
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+body{
+    background: #fff;
+    background-color: #8FBC8F;
+    width: 100%;
+}
+
+button{
+  position: relative;
+ /*this will calculate what 50% of the element width is and will move it across the X-axis. The negative value ensures it moves to the left*/
+  background-color: #4CAF50; /* Green */
+  border: 0.125rem solid #fff;
+  border-radius: 2rem;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin-top: 25px;
+}
+
+button:hover {
+    background-color: transparent;
+    color: white;
+    border-color: white;
+    border: 1.5rem  #fff;
+    font-size: 1rem;
+
+    text-decoration: none;
+}
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+
+.column-1 {
+  flex-shrink: 0; /* shrinks to 0 to apply 20% width*/
+  flex-basis: 20%; /* sets initial width to 20% */
+  margin-left: 1%;
+  margin-top: 2%;
+  align-items: center;
+}
+
+.column-3 {
+  flex-shrink: 0; /* shrinks to 0 to apply 20% width*/
+  flex-basis: 37%; /* sets initial width to 20% */
+  margin-left: 5%;
+  margin-top: 10%;
+  align-items: center;
+}
+.column-6 {
+  flex-shrink: 0; /* shrinks to 0 to apply 20% width*/
+  flex-basis: 50%; /* sets initial width to 20% */
+  margin-left: 8%;
+  margin-top: 10%;
+  align-items: center;
+}
+
+.column-2 {
+  flex-shrink: 0; /* shrinks to 0 to apply 70% width*/
+  flex-basis: 74%; /* sets initial width to 70% */
+  margin-left: 1%;
+  margin-top: 2%;
+}
+
