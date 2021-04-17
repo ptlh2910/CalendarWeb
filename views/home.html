@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- jQuery for Bootstrap's JavaScript plugins -->
+    <link rel="stylesheet" href="/stylesheets/home.css" />
+    <!-- Styles -->
+    <script src="/javascripts/scripts.js"></script>
+  </head>
+<body>
+    <div class=" = container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">CalendarWeb</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Page 1-1</a></li>
+                        <li><a href="#">Page 1-2</a></li>
+                        <li><a href="#">Page 1-3</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Page 2</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-search"></span>Search</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span>My account</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container_1">
+
+        <div class="row">
+            <div class="column-1">
+                <div class="calendar">
+                    <div class="month">
+                        <i class="fas fa-angle-left prev" style="margin-left: 2rem;"></i>
+                        <div class="date">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                        <i class="fas fa-angle-right next" style="margin-right: 2rem;"></i>
+                    </div>
+                    <div class="weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div class="days"></div>
+                    <div class="mycalendar">
+                        <div class="row">
+                            <h1>
+                                My calendars
+                                <i class="fas fa-angle-down event-type" style="margin-left: 1em;"></i>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control control--checkbox">
+                            .
+                            <input type="checkbox" checked="checked" />
+                            <div class="control__indicator"></div>
+                        </label>
+                        <label class="control control--checkbox">
+                            Birthdays
+                            <input type="checkbox" checked="checked" id='birthday' />
+                            <div class="control__indicator"></div>
+                        </label>
+                        <label class="control control--checkbox" id='reminder'>
+                            Reminders
+                            <input type="checkbox" checked="checked" />
+                            <div class="control__indicator"></div>
+                        </label>
+                        <label class="control control--checkbox" id='task'>
+                            Tasks
+                            <input type="checkbox" checked="checked" />
+                            <div class="control__indicator"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- / College Timetable -->
+            <div class="column-2">
+                <table id='timetable'>
+                    <tr class='day'>
+                        <th></th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Tus</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                        <th>Sun</th>
+                    </tr>
+
+                    <tr>
+                        <td class='time'>0.00 - 1.00</td>
+                        <td id='c1' onclick="check_event(this.id, event)"></td>
+                        <td id='c2 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c3 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c4 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c5 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c6 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c7 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>1.00 - 2.00</td>
+                        <td id='c8 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c9 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c10 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c11 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c12 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c13 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c14 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>2.00 - 3.00</td>
+                        <td id='c15 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c16 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c17 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c18 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c19 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c20 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c21 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <td class='time'>3.00 - 4.00</td>
+                    <td id='c22 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c23 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c24 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c25 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c26 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c27 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c28 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>4.00 - 5.00</td>
+                        <td id='c29 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c30 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c31 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c32 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c33 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c34 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c35 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>5.00 - 6.00</td>
+                        <td id='c36 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c37 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c38 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c39 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c40 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c41 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c42 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <td class='time'>6.00 - 7.00</td>
+                    <td id='c43 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c44 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c45 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c46 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c47 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c48 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c49 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>7.00 - 8.00</td>
+                        <td id='c50 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c51 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c52 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c53 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c54 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c55 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c56 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>8.00 - 9.00</td>
+                        <td id='c57 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c58 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c59 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c60 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c61 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c62 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c63 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <td class='time'>9.00 - 10.00</td>
+                    <td id='c64 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c65 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c66 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c67 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c68 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c69 ' onclick="check_event(this.id, event)"></td>
+                    <td id='c70 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>10.00 - 11.00</td>
+                        <td id='c71 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c72 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c73 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c74 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c75 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c76 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c77 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>11.00 - 12.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>12.00 - 13.00</td>
+                        <td id='c85 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c86 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c87 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c88 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c89 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c90 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c91 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>13.00 - 14.00</td>
+                        <td id='c92 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c93 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c94 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c95 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c96 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c97 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c98 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>14.00 - 15.00</td>
+                        <td id='c99 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c100 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c101 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c102 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c103 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c104 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c105 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>15.00 - 16.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>16.00 - 17.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>17.00 - 18.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>18.00 - 19.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>19.00 - 20.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>20.00 - 21.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>21.00 - 22.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>22.00 - 23.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class='time'>23.00 - 24.00</td>
+                        <td id='c78 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c79 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c80 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c81 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c82 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c83 ' onclick="check_event(this.id, event)"></td>
+                        <td id='c84 ' onclick="check_event(this.id, event)"></td>
+                    </tr>
+                </table> <!-- end table -->
+            </div>
+        </div> <!-- end row -->
+    </div> <!-- end container -->
+    <div class="modal" id="calendar-form">
+        <div id="calendar-popup">
+
+            <form id="event-form">
+                <div class='calander_popip_title'>
+                    <i class="fa" aria-hidden="true"></i>
+                    Add Event
+                </div>
+                <ul>
+                    <li>
+                        <label for="event-start">
+                            <i class="fa" aria-hidden="true"></i>
+
+                            From
+                        </label>
+                        <input id="event-start" class='form-control fa' type="datetime-local" name="start" />
+                    </li>
+                    <li>
+                        <label for="event-end">
+                            <i class="fa" aria-hidden="true"></i>
+
+                            To
+                        </label>
+                        <input id="event-end" class='form-control fa' type="datetime-local" name="end" />
+                    </li>
+                    <li>
+                        <label for="event-title">
+                            <i class="fa" aria-hidden="true"></i>
+                            Event Name
+                        </label>
+                        <input id="event-title" class='form-control' type="text" name="title" />
+                    </li>
+                    <li>
+                        <label for="event-location">
+                            <i class="fa" aria-hidden="true"></i>
+                            Location
+                        </label>
+                        <input id="event-location" class='form-control' type="text" name="location" />
+                    </li>
+                    <li>
+                        <label for="event-details">
+                            <i class="fa" aria-hidden="true"></i>
+                            Description
+                        </label>
+                        <textarea id="event-details" class='form-control' name="details"></textarea>
+                    </li>
+                    <button style="width: 82%;"> Submit </button>
+        </div>
+        </ul>
+        </form>
+
+    </div>
+
+    <div id='search_result'>result</div>
+    <button class='btn btn-primary'>Add Events</button>
+    </div>
+    <!-- Scripts -->
+    <script src="/javascripts/home.js"></script>
+</body>
+</html>
