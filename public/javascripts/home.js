@@ -131,6 +131,7 @@ function convertSolar2Lunar(dd, mm, yy, timeZone) {
     }
     return new Array(lunarDay, lunarMonth, lunarYear);
 }
+
 const renderCalendar = (date) => {
     date.setDate(1);
 
@@ -229,324 +230,264 @@ const renderCalendar = (date) => {
         })
     });
 };
-document.querySelector(".prev").addEventListener("click", () => {
-    date.setMonth(date.getMonth() - 1);
-    renderCalendar(date);
-});
 
-document.querySelector(".next").addEventListener("click", () => {
-    date.setMonth(date.getMonth() + 1);
-    renderCalendar(date);
-});
-
-document.querySelector(".event-type").addEventListener("click", () => {
-
-});
-
-
-renderCalendar(date);
-
-
-function changeTooltip(id) {
-    document.getElementById(id).setAttribute('data-tooltip', 'aaa');
+function get_username() {
+    return document.getElementById("dataset").dataset.username;
 }
 
-document.getElementById("c1").addEventListener("click", function () {
-    changeTooltip("c1");
-});
+const USERNAME = get_username();
 
-function check_event(ID, event) {
-    var x = event.screenX;
-    var y = event.screenY;
-    document.getElementById("calendar-form").style.display = "block";
-    document.getElementById("c1").addEventListener("click", function () {
-        changeTooltip("c1");
+function show_calendar() {
+    document.querySelector(".prev").addEventListener("click", () => {
+        date.setMonth(date.getMonth() - 1);
+        renderCalendar(date);
     });
+
+    document.querySelector(".next").addEventListener("click", () => {
+        date.setMonth(date.getMonth() + 1);
+        renderCalendar(date);
+    });
+
+    renderCalendar(date);
+}
+show_calendar();
+
+var generated_ID = function () {
+    return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+};
+
+const cyrb53 = function (str, seed = 0) {
+    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    for (let i = 0, ch; i < str.length; i++) {
+        ch = str.charCodeAt(i);
+        h1 = Math.imul(h1 ^ ch, 2654435761);
+        h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+};
+var subcribers = [];
+
+function show_subcriber(subcriber_slidebar) {
+
+    axios.post(
+        '/get/SubUser',
+        { "id1": USERNAME }
+    ).then(function (response) {
+        for (var i = 0; i < response.data.length; i++) {
+            subcribers.push(response.data[i]["id2"]);
+            var other_username = subcribers[i];
+            var content = document.createElement("h3");
+            // checkbox.style.marginLeft ;
+            content.style.marginLeft = "28px";
+            content.style.cursor = "pointer";
+            content.innerHTML = "&#9831 " + response.data[i]["id2"];
+            content.dataset["username"] = subcribers[i];
+            content.addEventListener("click", function () {
+                window.location.href = "/friend?username0=" + USERNAME + "&username1=" + this.dataset["username"];
+            })
+            subcriber_slidebar.appendChild(content);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+
 }
 
+let subcriber_slidebar = document.getElementById("subcriber");
+
+show_subcriber(subcriber_slidebar);
+
+function generateTableHead(table) {
+    var day = new Date();
+    var month = day.getMonth() + 1;
+
+    // head.className = 'headtb';
+
+    var row = table.insertRow();
+
+    for (var i = 0; i < 8; i++) {
+        var square = row.insertCell();
+        var content = document.createElement("header_timetable");
+        if (i == 0) {
+            content.append("Time");
+            square.className = 'time';
+        } else {
+            square.className = 'dayx';
+            content.append(String(day.getDate()) + '/' + String(day.getMonth() + 1));
+            day.setDate(day.getDate() + 1);
+        }
+        square.appendChild(content);
+    }
+}
+
+var list_event_id = [];
+var active_id = {};
+var cur_day;
+var cur_ev_id;
+
+function generateTable(table) {
+    var params;
+    for (var i = 0; i < 24; i++) {
+        day = new Date();
+        day.setDate(day.getDate() - 1);
+        var row = table.insertRow();
+        for (var j = 0; j < 8; j++) {
+            var cell = row.insertCell();
+            var text = document.createElement("event");
+            text.id = cyrb53(String(i) + String(day.getDate()));
+
+            if (j == 0) {
+                text.append(i.toString() + ".00 - " + (i + 1).toString() + ".00");
+                cell.className = 'event_time';
+            } else {
+                list_event_id.push({ "id": text.id, "username": USERNAME });
+                // Send a POST request
+                // params = {
+                //   id: text.id
+                // };
+                cell.addEventListener("click", function () {
+                    let id = this.getElementsByTagName("event")[0].id;
+                    if (active_id.hasOwnProperty(id)) {
+                        cur_ev_id = id;
+                        const data = active_id[id];
+                        let form = document.getElementById("calendar-show-form");
+                        var day = data.start
+                        var date = new Date(String(day));
+                        console.log(id);
+                        console.log(data.start);
+                        document.getElementById("event-name-info").innerHTML = data.title;
+                        document.getElementById("event-time-info").innerHTML = date.toDateString();
+                        document.getElementById("event-location-info").innerHTML = data.location;
+                        document.getElementById("event-detail-info").innerHTML = data.details;
+                        cur_day = day;
+                        //a= document.getElementById("event-name-info");
+                        form.style.display = "block";
+                    } else {
+
+                        modal.style.display = "block";
+                        // document.getElementById("calendar-form").style.display = "none";
+                        document.getElementById("event-start").value = "";
+                        document.getElementById("event-title").value = "";
+                        document.getElementById("event-details").value = "";
+                        document.getElementById("event-location").value = "";
+                    }
+                });
+
+            }
+            cell.appendChild(text);
+            day.setDate(day.getDate() + 1);
+        }
+    }
+    params = {
+        ids: list_event_id
+    };
+
+    axios.post(
+        '/home/getEvents',
+        params
+    ).then(function (response) {
+        for (var i = 0; i < response.data.length; i++) {
+            event = response.data[i];
+            if (event.id) {
+                active_id[event.id] = event;
+                document.getElementById(event.id).innerHTML = event.title;
+                // document.getElementById(res.id).style.fontSize = 0;
+            }
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+}
+
+let table = document.getElementById("timetable");
+generateTableHead(table);
+generateTable(table);
 
 // Get the modal
 var modal = document.getElementById('calendar-form');
+var modal2 = document.getElementById('calendar-show-form');
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+    if (event.target == modal2) {
+        modal2.style.display = "none";
+    }
 }
+var createButton = document.getElementById("create_event");
 
-var events = []
-events = parselocalstorage('events')
+createButton.addEventListener("click", function () {
+    modal.style.display = "block";
+    // document.getElementById("calendar-form").style.display = "none";
+    document.getElementById("event-start").value = "";
+    document.getElementById("event-title").value = "";
+    document.getElementById("event-details").value = "";
+    document.getElementById("event-location").value = "";
+});
 
-var renderPopup = function (jsEvent, start, end, calEvent) {
-    var $popup = $('#calendar-popup');
-    var $eventForm = $('#event-form');
-    $event = $('#event');
-    var $selectedElmt = $(jsEvent.target);
+var formElem = document.getElementById("event-form");
 
-    var relativeStartDay = start.calendar(null, { lastDay: '[yesterday]', sameDay: '[today]' });
-    var endNextDay = '';
+formElem.onsubmit = async (e) => {
+    e.preventDefault();
+    let data = new FormData(formElem);
 
-    if (relativeStartDay === 'yesterday') {
-        endNextDay = '[Today at] ';
+    // console.log(value);
+    var day = new Date(Object.fromEntries(data.entries()).start);
+    var date = day.getDate();
+    var hour = day.getHours();
+    var event_id = cyrb53(String(hour) + String(date));
+    data.append("id", event_id);
+    data.append("username", USERNAME);
+    var value = Object.fromEntries(data.entries());
+    active_id[event_id] = value;
+    if (document.getElementById(event_id)) {
+        document.getElementById(event_id).innerHTML = value.title;
+    } else {
+        alert("Create new event in this week, please try again!");
     }
-    else if (relativeStartDay === 'today') {
-        endNextDay = '[Tomorrow at] ';
-    }
-    else {
-        endNextDay = 'dddd ';
-    }
-
-    $('.start-time').html(
-        ' <p><i class="fa fa-play" aria-hidden="true"></i>' + (start.isSameOrBefore(moment()) ? 'Started' : 'Starts') + '</p>'
-        + '<time datetime="' + start.format() + '">'
-        + start.calendar(null, {
-            lastWeek: 'L LT',
-            nextWeek: 'dddd LT',
-            sameElse: 'L LT'
-        })
-        + '</time>'
-    );
-    $('.end-time').html(
-        '<p><i class="fa fa-stop" aria-hidden="true"></i> '
-        + (end.isSameOrBefore(moment()) ? 'Ended' : 'Ends')
-        + (end.isSame(start, 'day') ? ' at' : '')
-        + '</p>'
-        + '<time datetime="' + end.format() + '">'
-        + end.calendar(start, {
-            sameDay: 'LT',
-            nextDay: endNextDay + 'LT',
-            nextWeek: 'dddd LT',
-            sameElse: 'L LT'
-        })
-        + '</time>'
+    axios.post(
+        "/home/addEvent",
+        value
     );
 
-    if (calEvent) {
-        $eventForm.hide();
+    document.getElementById("calendar-form").style.display = "none";
+    document.getElementById("event-start").value = "";
+    document.getElementById("event-title").value = "";
+    document.getElementById("event-details").value = "";
+    document.getElementById("event-location").value = "";
+};
 
-        $event.children('header').html(`<i class="fa fa-calendar-o"></i>` + calEvent.title);
-        $event.find('.location').text(calEvent.location ? calEvent.location : '(No location information.)');
-        $event.find('.details').text(calEvent.details ? calEvent.details : '');
+var editButton = document.getElementById("ed");
+editButton.addEventListener("click", function () {
+    let form = document.getElementById("calendar-show-form");
+    let cre = document.getElementById("calendar-form");
+    document.getElementById("title_event_form").innerHTML = "Edit Event";
+    document.getElementById("event-title").value = document.getElementById("event-name-info").textContent;
+    document.getElementById("event-start").value = cur_day;
+    document.getElementById("event-location").value = document.getElementById("event-location-info").textContent;
+    document.getElementById("event-details").value = document.getElementById("event-detail-info").textContent;
+    form.style.display = "none";
+    cre.style.display = "block";
 
-        $event.show();
-    }
-    else {
-        $event.hide();
-        $('#event-start').val(start.format('YYYY-MM-DD[T]HH:mm'));
-        $('#event-end').val(end.format('YYYY-MM-DD[T]HH:mm'));
-        $eventForm.show();
-    }
-
-    var leftPosition = 0;
-    var $prong = $('.prong');
-    var prongPos = 0;
-
-    if ($selectedElmt.hasClass('fc-highlight')) {
-        leftPosition = $selectedElmt.offset().left - $popup.width() + ($selectedElmt.width() / 2);
-        if (leftPosition <= 0) {
-            leftPosition = 5;
-            prongPos = $popup.width() - $selectedElmt.offset().left - 30
-        }
-        else {
-            prongPos = 15;
-        }
-
-        $popup.css('left', leftPosition);
-        $prong.css({
-            'left': '',
-            'right': prongPos,
-            'float': 'right'
-        });
-    }
-    else {
-        leftPosition = jsEvent.originalEvent.pageX - $popup.width() / 2;
-        if (leftPosition <= 0) {
-            leftPosition = 5;
-        }
-        prongPos = jsEvent.originalEvent.pageX - leftPosition - ($prong.width() * 1.7);
-
-        $popup.css('left', leftPosition);
-        $prong.css({
-            'left': prongPos,
-            'float': 'none',
-            'right': ''
-        });
-    }
-
-    var topPosition = (calEvent ? jsEvent.originalEvent.pageY : $selectedElmt.offset().top) - $popup.height() - 15;
-
-    if ((topPosition <= window.pageYOffset)
-        && !((topPosition + $popup.height()) > window.innerHeight)) {
-        $popup.css('top', jsEvent.originalEvent.pageY + 15);
-        $prong.css('top', -($popup.height() + 12))
-            .children('div:first-child').removeClass('bottom-prong-dk').addClass('top-prong-dk')
-            .next().removeClass('bottom-prong-lt').addClass('top-prong-lt');
-    }
-    else {
-        $popup.css('top', topPosition);
-        $prong.css({ 'top': 0, 'bottom': 0 })
-            .children('div:first-child').removeClass('top-prong-dk').addClass('bottom-prong-dk')
-            .next().removeClass('top-prong-lt').addClass('bottom-prong-lt');
-    }
-
-    $popup.show();
-    $popup.find('input[type="text"]:first').focus();
-}
-
-$(document).ready(function () {
-    $('#calendar').fullCalendar({
-        header: {
-            left: 'title',
-            right: 'prev,next today'
-        },
-        timezone: 'local',
-        defaultView: 'month',
-        allDayDefault: false,
-        allDaySlot: false,
-        slotEventOverlap: true,
-        slotDuration: "01:00:00",
-        slotLabelInterval: "01:00:00",
-        snapDuration: "00:15:00",
-        contentHeight: 700,
-        scrollTime: "8:00:00",
-        axisFormat: 'h:mm a',
-        timeFormat: 'h:mm A()',
-        selectable: true,
-        events: function (start, end, timezone, callback) {
-            let arr = parselocalstorage('events')
-            callback(arr);
-        },
-        eventColor: '#dec5c9',
-        eventClick: function (calEvent, jsEvent) {
-
-            renderPopup(jsEvent, calEvent.start, calEvent.end, calEvent);
+});
 
 
-        },
-        eventRender: function (event, element) {
-            element.append(`<span class='I_delete'><i class="fa fa-remove fa-2x"></i></span>`);
-            element.append(`<span class='I_edit'><i class="fa fa-edit fa-2x"></i></span>`);
-            element.find(".I_delete").click(function () {
-                $('#calendar-popup').hide();
-                if (confirm('are you sure want to delete event?')) {
-                    $('#calendar').fullCalendar('removeEvents', event._id);
-                    var index = events.map(function (x) { return x.id; }).indexOf(event.id);
-                    events.splice(index, 1);
-                    localStorage.setItem('events', JSON.stringify(events));
+document.getElementById("delete_button").addEventListener("click", function () {
 
-                    events = parselocalstorage('events')
+    let form = document.getElementById("calendar-show-form");
+    let id = cur_ev_id;
+    console.log(id);
+    axios.post(
+        "/home/deleteEvent",
+        { "id": id }
+    );
 
-                }
-            });
-            element.find(".I_edit").click(function () {
-                $('#calendar-popup').hide();
-
-                $('#eventname').val(event.title)
-                $('#location').val(event.location)
-                $('#eventdetails').val(event.details)
-                $('input#eventstart').val(event.start._i)
-                $('input#eventend').val(event.end._i)
-                $('#simplemodal').show();
-
-
-                //update events
-                var that = event;
-                $('#edit-form').on('submit', function (e) {
-                    e.preventDefault();
-                    $form = $(e.currentTarget);
-
-                    $title = $form.find('input#eventname');
-                    $location = $form.find('input#location');
-                    $details = $form.find('textarea#eventdetails');
-                    $start = $form.find('input#eventstart');
-                    $end = $form.find('input#eventend');
-                    //update value
-                    that.title = $title.val();
-                    that.location = $location.val();
-                    that.details = $details.val();
-                    that.start = $start.val();
-                    that.end = $end.val();
-
-                    $('#calendar').fullCalendar('updateEvent', that);
-                    console.log('after update', events)
-                    $('#simplemodal').hide();
-                    $('#calendar-popup').hide();
-                });
-                $('#calendar').fullCalendar('updateEvent', event);
-
-                // 
-                //       localStorage.setItem('events', JSON.stringify(events));
-            });
-
-            $('#close-btnid').click(function () {
-                $('#simplemodal').hide();
-            })
-
-            var modal = document.getElementById('simplemodal')
-
-            window.addEventListener('click', clickOutside)
-            function clickOutside(e) {
-                if (e.target == modal) {
-                    modal.style.display = 'none';
-
-                }
-            }
-        }
-        ,
-        select: function (start, end, jsEvent) {
-            $('.btn-primary').css('opacity', 1)
-            $('.btn-primary').click(function () {
-                renderPopup(jsEvent, start.local(), end.local());
-            })
-            renderPopup(jsEvent, start.local(), end.local());
-
-        }
-    });
-
-    $('#event-form').on('submit', function (e) {
-        e.preventDefault();
-
-        $form = $(e.currentTarget);
-
-        $title = $form.find('input#event-title');
-        $location = $form.find('input#event-location');
-        $details = $form.find('textarea#event-details');
-        $ID = '_' + Math.random().toString(36).substr(2, 9)
-        events.push({
-            id: $ID,
-            title: $title.val(),
-            start: $form.find('input#event-start').val(),
-            end: $form.find('input#event-end').val(),
-            location: $location.val(),
-            details: $details.val()
-        });
-
-        $title.val('');
-        $location.val('');
-        $details.val('');
-
-        $form.parent().blur().hide();
-        localStorage.setItem('events', JSON.stringify(events));
-        $('#calendar').fullCalendar('refetchEvents');
-
-    });
-
-
-
-    //Set hide action for ESC key event
-    $('#calendar-popup').on('keydown', function (e) {
-        $this = $(this);
-        console.log($this);
-        if ($this.is(':visible') && e.which === 27) {
-            $this.blur();
-        }
-    })
-        //Set hide action for lost focus event
-        .on('focusout', function (e) {
-            $this = $(this);
-            if ($this.is(':visible') && !$(e.relatedTarget).is('#calendar-popup, #calendar-popup *')) {
-                $this.hide();
-            }
-        });
+    document.getElementById(id).innerHTML = "";
+    delete active_id[id];
+    form.style.display = "none";
 });

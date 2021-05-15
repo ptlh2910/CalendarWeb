@@ -19,13 +19,13 @@
         <div class="column-3">
             <div class="text-container">
                 <!-- sử dụng biển check để xem đã đăng nhập chưa -->
-                <% if(username) { %>
-                    <h1 style="color:#fff; font-size: 550%; text-align: center;">Hello</h1>
-                    <p class="p-large" style="color:#fff; font-weight: bold; text-align: center;"> <%= username %> </p>
-                <% } %>   
+                <% if(title) { %>
+                <h1 style="color:#fff; font-size: 550%; text-align: center;">Hello</h1>
+                <p class="p-large" style="color:#fff; font-weight: bold; text-align: center;"> <%= title %> </p>
+                <% } %>
             </div>
             <p class="p-large" style="color:#fff; font-weight: bold; text-align: center;">
-                <button onclick ="location.href='/login.html';"  style=" font-size:20px; background-color: #167e56; border-color: #167e56;">
+                <button onclick="location.href='/login';" style=" font-size:20px; background-color: #167e56; border-color: #167e56;">
                     LOGIN
                 </button>
             </p>
@@ -34,7 +34,7 @@
 
         <div class="column-6">
             <div>
-                <img class="img-fluid"  style="width: 80%;" src="/images/icon.png" alt="alternative">
+                <img class="img-fluid" style="width: 80%;" src="/images/icon.png" alt="alternative">
             </div>
             <!-- end of image-container -->
         </div>

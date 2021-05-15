@@ -1,0 +1,221 @@
+
+#searchbox {
+  width: 250px;
+  height: 30px;
+  margin-top: 22px;
+  border-color: white;
+  background-color: #8fbc8f9e;
+  border-radius: 25px;
+}
+
+#searchbox input {
+  outline: none;
+  margin-top: -10px;
+}
+
+input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+input:focus:-moz-placeholder {
+  color: transparent;
+}
+
+input:focus::-moz-placeholder {
+  color: transparent;
+}
+
+#searchbox input[type="text"] {
+  background: transparent;
+  border: 5px;
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-size: 14px;
+  /*color: #f2f2f2 !important;*/
+  padding: 10px 35px 10px 20px;
+  width: 220px;
+}
+
+#searchbox input[type="text"]:focus {
+  color: #fff;
+}
+
+#button-submit {
+  background: url(http://4.bp.blogspot.com/-4MYBYE0i0Xk/VEQYlljvriI/AAAAAAAAAlQ/_TRkRG5EX1c/s1600/search-icon.png) no-repeat;
+  margin-left: -40px;
+  border-width: 0px;
+  width: 40px;
+  height: 50px;
+}
+
+#button-submit:hover {
+  background: url(http://4.bp.blogspot.com/-6S4K8eHPM-c/VEQdf7l84GI/AAAAAAAAAls/j7_kGSpkIfg/s1600/search-icon-hover.png);
+}
+
+.head_container{
+  width: 100%;
+  height: 8%;
+  overflow: hidden;
+  background-color: #2F4F4F;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+ 
+}
+.head_container item{
+  margin-right: 10%;
+}
+
+.searchw{
+  /*margin-left: 60%;*/
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+}
+.logo{
+  float:left;
+}
+.logo img{
+  height: 50px;
+}
+.menu{
+  /*margin-left: 2%;*/
+}
+.menu ul{
+  list-style-type: none;
+}
+.menu li{
+  display: inline;
+}
+
+.menu a{
+  text-decoration: none;
+  font-weight: 500;
+  color: white;
+  padding:10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.menu a:hover { 
+  background: rgba(247, 202, 24, 0.1);
+  border:#F7CA18;
+  border-style: solid;
+  border-width: 2px;
+
+}
+.icon{
+  display: none;
+}
+
+menu.responsive{
+  position: relative;
+}
+menu.responsive{
+  float: none;
+    display: block;
+    text-align: left;
+}
+
+@media screen and (max-width: 835px) {
+  .logo img {
+      height: 40px;
+  }
+  ul > li:first-of-type{
+    display:none;
+  }
+  .menu{
+    margin:0;
+  }
+}
+
+
+@media screen and (max-width: 690px) {
+
+.menu li{
+  display: none;
+}
+.icon{
+    font-weight: 900 !important;
+        font-size: 27px !important;
+    padding: 0;
+    margin: 0;
+       margin-top: -22px;
+    display: flex;
+}
+  .logo img {
+      height: 40px;
+  }
+}
+
+.menu-items{
+    /* background-color: red; */
+    height:70px;
+    align-items: center;
+    display: flex;
+    position: relative;
+}
+.menu-items ul{
+    list-style: none;
+    display: flex;
+}
+
+li[class^="menu-item-"] a{
+    margin:12px 22px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    -webkit-transition: all 0.9s ease-in-out;
+    -moz-transition: all 0.9s ease-in-out;
+    -ms-transition: all 0.9s ease-in-out;
+    -o-transition: all 0.9s ease-in-out;
+    transition: all 0.9s ease-in-out;
+}
+li[class^="menu-item-"] a:hover{
+    color: #dc18ff!important;
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+
+.column-1 {
+  flex-shrink: 0; /* shrinks to 0 to apply 20% width*/
+  flex-basis: 20%; /* sets initial width to 20% */
+  margin-left: 0.8%;
+  margin-top: 80px;
+  align-items: center;
+  /*position: fixed;*/
+}
+
+.column-2 {
+  flex-shrink: 0; /* shrinks to 0 to apply 70% width*/
+  flex-basis: 77.3%; /* sets initial width to 70% */
+  margin-left: 1%;
+  margin-top: 80px;
+}
+
+.column-3 {
+  flex-shrink: 0; /* shrinks to 0 to apply 20% width*/
+  flex-basis: 5%; /* sets initial width to 20% */
+  margin-left: 55%;
+  align-items: center;
+}
+.column-4 {
+  flex-shrink: 0; /* shrinks to 0 to apply 20% width*/
+  flex-basis: 5%; /* sets initial width to 20% */
+  margin-left: 7%;
+  align-items: center;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+}

@@ -1,48 +1,24 @@
-var express = require('express')
-var passport = require('passport')
-var session = require('express-session')
-var cookieParser = require('cookie-parser')
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy
-var bodyParser = require('body-parser')
-var config = require('../configuration/config')
-var mysql = require('mysql');
-var app = express()
+var router = require("express").Router();
 
-app.set('views', __dirname + '/../views');
-app.set('view engine', 'ejs');
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({ secret: 'keyboard cat', key: 'sid' }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(__dirname + '/../public'));
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb://sinno.soict.ai:27017";
+// const uri = "mongodb://localhost:27017";
+var _db;
 
-var connection = mysql.createConnection({
-    host: config.host,
-    user: config.username,
-    password: config.password,
-    database: config.database
+MongoClient.connect(uri, function (err, db) {
+    if (err) throw err;
+    _db = db.db("CalendarDB");
 });
 
-var nodemailer = require('nodemailer');
-const { render, connect } = require('./register')
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'congnghewebnhom10@gmail.com',
-        pass: 'congngheweb10'
-    }
-});
 
 function send_email(taikhoan, matkhau) {
     var mailOptions = {
-        from: 'congnghewebnhom10@gmail.com',
+        from: 'dchy2000@gmail.com',
         to: taikhoan,
         subject: 'This is your new password',
         text: matkhau
     };
-    transporter.sendMail(mailOptions, function(error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
@@ -51,11 +27,12 @@ function send_email(taikhoan, matkhau) {
     });
 }
 
-app.post('/', function(req, res) {
+router.post('/', function (req, res) {
     var email = req.body.email
-        // var password = req.cookies['password']
-
-    connection.query('select * from accounts where email = ?', email, (error, results, fields) => {
+    // var password = req.cookies['password']
+    var query = { "email": email };
+    _db.collection("account").find(query).toArray(function (err, result) {
+        if (err) throw err;
         if (results.length != 0) {
             console.log(results)
             send_email(email, 'Your password: ' + results[0]['password'])
@@ -64,7 +41,6 @@ app.post('/', function(req, res) {
             res.render('login', { thongBao: 'Error, email does not exist', color: 'red' })
         }
     })
-
 });
 
-module.exports = app;
+module.exports = router;

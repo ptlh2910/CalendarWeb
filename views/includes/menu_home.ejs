@@ -1,45 +1,28 @@
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="height : 8%;">
-    <!-- Text Logo - Use this if you don't have a graphic logo -->
-    <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Evolo</a> -->
+<link rel="stylesheet" href="/stylesheets/menu.css" />
+<div class="head_container">
+  <div class="row">
+    <div class="column-3">
+      <form id="searchbox" method="get" action="javascript:void(0);" autocomplete="off">
+        <input id="search_inp" name="q" type="text" size="15" placeholder="Enter your friend here..." />
+        <input id="button-submit" type="submit" value=" " />
+      </form>
 
-    <!-- Image Logo -->
-
-    <!-- Mobile Menu Toggle Button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">        <span class="navbar-toggler-awesome fas fa-times"></span>
-    </button>
-    <!-- end of mobile menu toggle button -->
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item search">
-                <!-- Search -->
-                <div class="form-inline active-pink-3 active-pink-4">
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                    <input class="form-control form-control-sm ml-3 w-75 dropdown-toggle" type="text"
-                        placeholder="Search by user name" data-toggle="dropdown" autocomplete="off" aria-label="Search" id="search_board_1">
-                </div>  
-            </li>
-            <li class="nav-item">
-                <a class="nav-link page-scroll" href="/home"><button class="btn btn-primary icon-menu"><i
-                            class="fas fa-home"></i></button> <span class="sr-only">(current)</span></a>
-            </li>
-            <!-- Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle page-scroll" href="#about" id="navbarDropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">
-                    <div class=" icon_menu_1"></div>
-                    <div class=" icon_menu_1"></div>
-                    <div class=" icon_menu_1"></div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/logout">
-                        <span class="item-text">Logout</span>
-                    </a>
-                </div>
-            </li>
-            <!-- end of dropdown menu -->
-        </ul>
     </div>
-</nav>
+    <div class="column-4 menu-items">
+      <ul>
+        <li class="menu-item-1"><a id="home_link" href="" onlick="GotoHome()" >Home</a></li>
+        <li class="menu-item-2"><a id="profile_link" href= "" onlick="GotoProfile()" > Profile</a></li>
+        <li id="logout_link" class="menu-item-3"><a href="/logout">Logout</a></li>
+        <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+        <script>
+          function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+              console.log('User signed out.');
+            });
+          }
+        </script>
+      </ul>
+    </div>
+  </div>
+</div>
