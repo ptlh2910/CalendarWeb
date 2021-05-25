@@ -1,30 +1,71 @@
-var express = require('express')
-var config = require('../configuration/config')
-var router = express.Router()
-var mongo = require('../database/db');
-mongo.connectToServer();
+var router = require("express").Router();
 
-router.post('/profile', function (req, res) {
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb://sinno.soict.ai:27017";
+// const uri = "mongodb://localhost:27017";
+var _db;
+
+MongoClient.connect(uri, function(err, db) {
+  if (err) throw err;
+  _db = db.db("CalendarDB");
+}); 
+
+
+router.post('/addEvent', function(req, res) {
+    var data = req.body;
+    _db.collection("event").insertOne(data,function(err, collection) {
+      if (err) throw err;
+    });
+    res.send(true);
+});
+
+router.post('/addSubUser', function(req, res) {
+    var data = req.body;
+    _db.collection("subcribe").insertOne(data,function(err, collection) {
+      if (err) throw err;
+    });
+    console.log("insert successful!");
+    res.send(true);
+});
+router.post('/delSubUser', function(req, res) {
     var query = req.body;
-    db = mongo.getDb();
-    db.collection("account").find(query).toArray(function (err, result) {
-        if (err) throw err;
-        // console.log(result);
-        res.send(result);
+    _db.collection("subcribe").deleteMany(query);
+    console.log("delete successful!");
+    res.send(true);
+});
+
+router.post('/checkEvent', function(req, res) {
+    var query = req.body;
+    _db.collection("event").find(query).toArray(function(err, result) {
+      if (err) throw err;
+      res.send(result);
     });
 });
 
-router.post('/SubUser', function (req, res) {
-    var query = req.body;
-    db = mongo.getDb();
-    db.collection("subcribe").find(query).toArray(function (err, result) {
-        if (err) throw err;
-        res.send(result);
-    });
+router.post('/getEvent', function(req, res) {
+  var query = req.body;
+  _db.collection("event").find(query).toArray(function(err, result) {
+    if (err) throw err;
+    res.send(result);
+  });
 });
 
-router.get('/email', function (req, res, next) {
-    res.json({ 'email': req.cookies.email })
-})
+router.post('/getEvents', function(req, res) {
+  var query = req.body.ids;
+  // console.log(_db);
+  _db.collection("event").find({
+    $or: query
+  }).toArray(function(err, result) {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
+router.post('/deleteEvent', function(req, res) {
+    var id = req.body.id;
+    var query = { "id" : id};
+    console.log(req.body);
+    _db.collection("event").remove(query);
+});
 
 module.exports = router;

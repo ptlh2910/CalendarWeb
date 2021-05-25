@@ -1,15 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\configuration",
-    "\\Database",
+    "\\model",
     "\\public",
     "\\public\\javascripts",
     "\\public\\stylesheets",
-    "\\routes",
-    "\\views",
-    "\\views\\includes"
+    "\\views"
   ],
-  "SelectedNode": "\\public\\javascripts\\home.js",
   "PreviewInSolutionExplorer": false
 }

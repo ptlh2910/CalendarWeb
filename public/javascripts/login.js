@@ -89,22 +89,3 @@ Validator.isMinLen = function (selector, message) {
     }
 }
 
-var formElem = document.getElementById("register-form");
-
-formElem.onsubmit = async (e) => {
-    e.preventDefault();
-    let data = new FormData(formElem);
-    var value = Object.fromEntries(data.entries());
-    axios.post(
-        "/register/addUser",
-        value
-    ).then(function (response) {
-        alert(response.data.message);
-        var username = response.data.data.username;
-        if (username != 'undefined') {
-            document.location.href = '/home?username=' + username;
-        }
-    }).catch(function (error) {
-        console.log(error);
-    });
-};

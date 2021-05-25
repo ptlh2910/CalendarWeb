@@ -1,4 +1,3 @@
-
 const date = new Date();
 function jdFromDate(dd, mm, yy) {
     var a, y, m, jd;
@@ -226,6 +225,8 @@ const renderCalendar = (date) => {
             var targetDate = new Date();
             targetDate.setDate(event.target.textContent);
             targetDate.setMonth(date.getMonth());
+
+            console.log(targetDate.toDateString());
         })
     });
 };
@@ -234,11 +235,9 @@ function get_username() {
     return document.getElementById("dataset").dataset.username;
 }
 
-
 const USERNAME = get_username();
 
 function show_calendar() {
-
     document.querySelector(".prev").addEventListener("click", () => {
         date.setMonth(date.getMonth() - 1);
         renderCalendar(date);
@@ -281,16 +280,9 @@ function show_subcriber(subcriber_slidebar) {
             var other_username = subcribers[i];
             var content = document.createElement("h3");
             // checkbox.style.marginLeft ;
-            content.style.color = "darkgreen";
-            content.style.background = "azure";
-            content.style.padding = "auto";
-            content.style.width = "240px";
-            content.style.height = "30px";
-            content.style.marginTop = "0px";
+            content.style.marginLeft = "28px";
             content.style.cursor = "pointer";
-            content.style.borderRadius = "10px";
-            content.style.opacity = "0.7"
-            content.innerHTML = "<span style='font-size:20px; margin-left:10px;'>&#9831</span>" + response.data[i]["id2"];
+            content.innerHTML = "&#9831 " + response.data[i]["id2"];
             content.dataset["username"] = subcribers[i];
             content.addEventListener("click", function () {
                 window.location.href = "/friend?username0=" + USERNAME + "&username1=" + this.dataset["username"];
@@ -318,7 +310,6 @@ function generateTableHead(table) {
     for (var i = 0; i < 8; i++) {
         var square = row.insertCell();
         var content = document.createElement("header_timetable");
-        // square.style.backgroundColor = "#167e56";
         if (i == 0) {
             content.append("Time");
             square.className = 'time';
@@ -335,7 +326,6 @@ var list_event_id = [];
 var active_id = {};
 var cur_day;
 var cur_ev_id;
-var id_to_date = {};
 
 function generateTable(table) {
     var params;
@@ -345,21 +335,18 @@ function generateTable(table) {
         var row = table.insertRow();
         for (var j = 0; j < 8; j++) {
             var cell = row.insertCell();
-            var text = document.createElement("event")
-            if (j > 0) {
-                cell.style.border = "1px dotted white";
-            }
+            var text = document.createElement("event");
             text.id = cyrb53(String(i) + String(day.getDate()));
-            day.setHours(i, 0, 0, 0);
-            id_to_date[text.id] = new Date(day);
 
             if (j == 0) {
                 text.append(i.toString() + ".00 - " + (i + 1).toString() + ".00");
                 cell.className = 'event_time';
-                // cell.style.backgroundColor = "#167e56";
             } else {
                 list_event_id.push({ "id": text.id, "username": USERNAME });
                 // Send a POST request
+                // params = {
+                //   id: text.id
+                // };
                 cell.addEventListener("click", function () {
                     let id = this.getElementsByTagName("event")[0].id;
                     if (active_id.hasOwnProperty(id)) {
@@ -368,22 +355,20 @@ function generateTable(table) {
                         let form = document.getElementById("calendar-show-form");
                         var day = data.start
                         var date = new Date(String(day));
+                        console.log(id);
+                        console.log(data.start);
                         document.getElementById("event-name-info").innerHTML = data.title;
-                        document.getElementById("event-time-info").innerHTML = date.toTimeString().substring(0, 5) + " " + date.toDateString();
+                        document.getElementById("event-time-info").innerHTML = date.toDateString();
                         document.getElementById("event-location-info").innerHTML = data.location;
                         document.getElementById("event-detail-info").innerHTML = data.details;
-                        document.getElementById("event-mode").checked = data.mode;
                         cur_day = day;
                         //a= document.getElementById("event-name-info");
                         form.style.display = "block";
                     } else {
-                        var date = id_to_date[id];
 
-                        date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-                        // console.log(date.getTimezoneOffset());
                         modal.style.display = "block";
                         // document.getElementById("calendar-form").style.display = "none";
-                        document.getElementById("event-start").value = date.toISOString().slice(0, 16);
+                        document.getElementById("event-start").value = "";
                         document.getElementById("event-title").value = "";
                         document.getElementById("event-details").value = "";
                         document.getElementById("event-location").value = "";
@@ -408,11 +393,6 @@ function generateTable(table) {
             if (event.id) {
                 active_id[event.id] = event;
                 document.getElementById(event.id).innerHTML = event.title;
-                // document.getElementById(event.id).parentElement.style.backgroundColor = "#167e56";
-                document.getElementById(event.id).parentElement.style.backgroundColor = "#fff";
-                document.getElementById(event.id).parentElement.style.color = "black";
-                document.getElementById(event.id).parentElement.style.opacity = 0.95;
-                // console.log(document.getElementById(event.id).parentElement);
                 // document.getElementById(res.id).style.fontSize = 0;
             }
         }
@@ -420,30 +400,6 @@ function generateTable(table) {
         console.log(error);
     });
 
-}
-document.getElementById("button-submit").onclick = function () {
-    var username = document.getElementById("search_inp").value;
-    search_input = { "username": username };
-
-    axios.post(
-        "/search/profile",
-        search_input
-    )
-        .then(function (res) {
-            if (res.data) {
-                window.location.href = "/friend?username0=" + USERNAME + "&username1=" + res.data.username;
-            } else {
-                console.log("not found");
-                alert("The username not found! Try again, please!");
-            }
-        })
-        .catch(function (res) { console.log(res) });
-};
-
-document.getElementById("home_link").onclick = function () {
-    stringURL = "/home?username=" + USERNAME;
-    console.log(stringURL);
-    this.href = stringURL;
 }
 
 let table = document.getElementById("timetable");
@@ -463,17 +419,16 @@ window.onclick = function (event) {
         modal2.style.display = "none";
     }
 }
-// var createButton = document.getElementById("create_event");
+var createButton = document.getElementById("create_event");
 
-// createButton.addEventListener("click", function(){
-//   modal.style.display = "block";
-//   // document.getElementById("calendar-form").style.display = "none";
-//   document.getElementById("title_event_form").innerHTML = "Create Event";
-//   document.getElementById("event-start").value="";
-//   document.getElementById("event-title").value = "";
-//   document.getElementById("event-details").value = "";
-//   document.getElementById("event-location").value = "";
-// });
+createButton.addEventListener("click", function () {
+    modal.style.display = "block";
+    // document.getElementById("calendar-form").style.display = "none";
+    document.getElementById("event-start").value = "";
+    document.getElementById("event-title").value = "";
+    document.getElementById("event-details").value = "";
+    document.getElementById("event-location").value = "";
+});
 
 var formElem = document.getElementById("event-form");
 
@@ -489,13 +444,9 @@ formElem.onsubmit = async (e) => {
     data.append("id", event_id);
     data.append("username", USERNAME);
     var value = Object.fromEntries(data.entries());
-    console.log(value);
     active_id[event_id] = value;
     if (document.getElementById(event_id)) {
         document.getElementById(event_id).innerHTML = value.title;
-        document.getElementById(event_id).parentElement.style.backgroundColor = "#fff";
-        document.getElementById(event_id).parentElement.style.color = "black";
-        document.getElementById(event_id).parentElement.style.opacity = 0.95;
     } else {
         alert("Create new event in this week, please try again!");
     }
@@ -520,14 +471,6 @@ editButton.addEventListener("click", function () {
     document.getElementById("event-start").value = cur_day;
     document.getElementById("event-location").value = document.getElementById("event-location-info").textContent;
     document.getElementById("event-details").value = document.getElementById("event-detail-info").textContent;
-    let data = new FormData(formElem);
-    data.append("mode", document.getElementById("event-mode").checked);
-    var value = Object.fromEntries(data.entries());
-    console.log(value);
-    axios.post(
-        "/update/event",
-        value
-    );
     form.style.display = "none";
     cre.style.display = "block";
 
@@ -538,13 +481,13 @@ document.getElementById("delete_button").addEventListener("click", function () {
 
     let form = document.getElementById("calendar-show-form");
     let id = cur_ev_id;
+    console.log(id);
     axios.post(
         "/home/deleteEvent",
         { "id": id }
     );
 
     document.getElementById(id).innerHTML = "";
-    document.getElementById(id).parentElement.style.opacity = 0;
     delete active_id[id];
     form.style.display = "none";
 });
