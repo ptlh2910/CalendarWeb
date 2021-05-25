@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calendar</title>
     <link rel="stylesheet" href="/stylesheets/home.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <!-- Styles -->
     <script src="/javascripts/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
@@ -40,8 +41,7 @@
                     <div class="mycalendar">
                         <div class="row" style="align-items: center;">
                             <h1>
-                                Create Event
-                                <button id="create_event" class="create_event"> + </button>
+                                My Calendar
                             </h1>
                         </div>
                     </div>
@@ -64,15 +64,12 @@
                     </div>
                     <div class="mycalendar">
                         <h1>
-                            Subcriber
+                            Subcriber List
                         </h1>
                     </div>
-                    <div class="control-group" id="subcriber">
-                        <!--
-                        <label class="control control--checkbox" id ='reminder'> Reminders
-                          <input type="checkbox" checked="checked"/>
-                          <div class="control__indicator"></div>
-                        </label> -->
+                    <div style="height: 170px;  overflow-y: scroll; " class="scrollbar" id="style-15">
+                        <div class="control-group" id="subcriber">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,7 +105,7 @@
                             <i class="fa" aria-hidden="true"></i>
                             Event Name
                         </label>
-                        <input id="event-title" class='form-control' type="text" value="" name="title" />
+                        <input id="event-title" class='form-control' type="text" value="" name="title" required="true" />
                     </li>
 
                     <li>
@@ -125,19 +122,18 @@
                         </label>
                         <textarea id="event-details" class='form-control' type="text" value="" name="details"></textarea>
                     </li>
-                    <li style="background-color: white;">
-                        <label for="event-mode">
-                            <i class="fa" aria-hidden="true"></i>
+                    <li style="background-color: white">
+                        <label class="event-mode">
                             <!-- <row> -->
-                            <div style="column-count: 2;">
-                                <label>Private</label>
-                                <input type="checkbox" style="margin-bottom: 5px;" id="mode" name="mode">
+                            <div style="display: flex; flex-direction: row; align-items: center;">
+                                <input type="checkbox" id="event-mode" name="mode">
+                                <label style="margin-left: 5px;">Private</label>
                             </div>
                             <!-- </row> -->
                         </label>
                     </li>
 
-                    <button id="submit_1" style="width: 82%;"> Submit </button>
+                    <button id="submit_1" style="width: 60%; margin-top: 50px;"> Submit </button>
                 </ul>
             </form>
         </div>

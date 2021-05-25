@@ -17,16 +17,10 @@ var profile = require('./routes/profile')
 var update = require('./routes/update')
 var getdata = require('./routes/get')
 var search = require('./routes/search')
-// var mongo = require('./Database/db');
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb://sinno.soict.ai:27017";
-var _db;
+var config = require('./configuration/config')
 
-MongoClient.connect(uri, function (err, db) {
-    if (err) throw err;
-    _db = db.db("CalendarDB");
-});
-
+var mongo = require('./database/db');
+mongo.connectToServer();
 // Passport session setup.
 const { OAuth2Client } = require('google-auth-library');
 
@@ -49,32 +43,94 @@ app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
-    if (req.cookies.username === undefined) {
-        res.render('index', {
-            title: 'Canlendar will help your teams be more professional and do more' +
-                'organize work and study in a more reasonable way'
-        });
-    } else {
-        res.render('index', {
-            title: 'Canlendar will help your teams be more professional and do more' +
-                'organize work and study in a more reasonable way'
-        });
-
-    }
+    res.render('index', {
+        title: 'Canlendar will help your teams be more professional and do more' +
+            'organize work and study in a more reasonable way'
+    });
 });
 
 app.get('/forgot', function (req, res) {
     res.render('forgot')
 });
-app.get('/home', checkAuthenticated, function (req, res) {
 
-    _db.collection('account').insertOne(req.user, function (err, collection) {
-        if (err) throw err;
-        console.log("Record inserted Successfully");
 
-    });
+app.get('/home', function (req, res) {
+    if (req._parsedOriginalUrl.query == null) {
+        res.render('error');
+    } else {
+        db = mongo.getDb();
+        username = { "username": req._parsedOriginalUrl.query.split('=')[1] };
+        var result = db.collection('account').findOne(username, function (err, result) {
+            if (err) throw err;
+            if (result) {
+                res.render('home', username)
+            } else {
+                res.render('error');
+            }
+        });
+    }
+});
+
+app.get('/ghome', checkAuthenticated, function (req, res) {
+
     res.render('home', req.user);
 });
+
+app.post('/login', (req, res) => {
+    let token = req.body.token;
+    async function verify() {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: config.googleClientID,  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        });
+        const payload = ticket.getPayload();
+        const userid = payload['sub'];
+    }
+    verify()
+        .then(() => {
+            res.cookie('session-token', token);
+            res.send('success');
+        }).catch(console.error);
+})
+
+
+function checkAuthenticated(req, res, next) {
+
+    let token = req.cookies['session-token'];
+
+    let user = {};
+    async function verify() {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: config.googleClientID
+
+        });
+        const payload = ticket.getPayload();
+        user.username = payload.email.split('@')[0];
+        user.fullname = payload.name;
+        user.email = payload.email;
+        user.picture = payload.picture;
+        // console.log(user);
+    }
+
+    verify()
+        .then(() => {
+            db = mongo.getDb();
+            db.collection('account').insertOne(user, function (err, collection) {
+                if (err) throw err;
+                console.log("Record inserted Successfully");
+
+            });
+            req.user = user;
+            next();
+        })
+        .catch(err => {
+            res.redirect('/login');
+        })
+}
+
 app.get('/profile', function (req, res) {
     res.render('profile')
 });
@@ -83,9 +139,6 @@ app.get('/friend', function (req, res) {
     res.render('friend')
 });
 
-app.get('/changeprofile', function (req, res) {
-    res.render('changeprofile')
-});
 
 // xử lý phần đăng nhập bằng facebook
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['profile', 'email'] }));
@@ -95,6 +148,7 @@ app.get('/auth/facebook/callback',
         res.redirect('/');
     }
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -114,63 +168,10 @@ app.get('/login', function (req, res) {
     res.render('login');
 })
 
-app.post('/login', (req, res) => {
-    let token = req.body.token;
-    async function verify() {
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: '43339122431-re8ubcvgrj5mim4ufqinsf5rlo82kbok.apps.googleusercontent.com',  // Specify the CLIENT_ID of the app that accesses the backend
-            // Or, if multiple clients access the backend:
-            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-        });
-        const payload = ticket.getPayload();
-        const userid = payload['sub'];
-        // console.log('payload ', payload )
-        // If request specified a G Suite domain:
-        // const domain = payload['hd'];
-    }
-    verify()
-        .then(() => {
-            res.cookie('session-token', token);
-            res.send('success');
-        }).catch(console.error);
-})
-
-app.get('/protectedroute', (res, req) => {
-    res.render('protectedroute.ejs')
-})
 
 app.get('/friend', (res, req) => {
     res.redirect('friend.ejs')
 })
-
-function checkAuthenticated(req, res, next) {
-    let token = req.cookies['session-token'];
-
-    let user = {};
-    async function verify() {
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: '43339122431-re8ubcvgrj5mim4ufqinsf5rlo82kbok.apps.googleusercontent.com'
-
-        });
-        const payload = ticket.getPayload();
-        user.username = payload.email.split('@')[0];
-        user.fullname = payload.name;
-        user.email = payload.email;
-        user.picture = payload.picture;
-        // console.log(user);
-    }
-
-    verify()
-        .then(() => {
-            req.user = user;
-            next();
-        })
-        .catch(err => {
-            res.redirect('/login');
-        })
-}
 
 
 // get
@@ -191,6 +192,6 @@ app.use('/search', search);
 // chuc nang quen mat khau
 app.use('/forgot', forgot)
 // xu li profile
-app.listen(3000, () => {
-    console.log("server listen on port 3000!");
+app.listen(config.port, () => {
+    console.log("server listen on port " + config.port + "!");
 })

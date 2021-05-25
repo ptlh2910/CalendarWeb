@@ -1,28 +1,33 @@
 <link rel="stylesheet" href="/stylesheets/menu.css" />
+<!-- <link rel="images" href="/public/images/logo.jpg" /> -->
 <div class="head_container">
-  <div class="row">
-    <div class="column-3">
-      <form id="searchbox" method="get" action="javascript:void(0);" autocomplete="off">
-        <input id="search_inp" name="q" type="text" size="15" placeholder="Enter your friend here..." />
-        <input id="button-submit" type="submit" value=" " />
-      </form>
+    <div class="row">
+        <div class="column-5">
+            <img class="logo" alt="logo" src="/images/logo.png" />
+        </div>
 
+        <div class="column-3">
+            <form id="searchbox" method="get" action="javascript:void(0);" autocomplete="off">
+                <input id="search_inp" name="q" type="text" size="15" placeholder="Enter your friend here..." />
+                <input id="button-submit" type="submit" value=" " />
+            </form>
+
+        </div>
+        <div class="column-4 menu-items" style="margin-left: 280px;">
+            <ul>
+                <li class="menu-item-1"><a id="home_link" href="" onlick="GotoHome()">Home</a></li>
+                <li class="menu-item-2"><a id="profile_link" href="" onlick="GotoProfile()"> Profile</a></li>
+                <li id="logout_link" class="menu-item-3"><a href="/logout">Logout</a></li>
+                <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+                <script>
+                    function signOut() {
+                        var auth2 = gapi.auth2.getAuthInstance();
+                        auth2.signOut().then(function () {
+                            console.log('User signed out.');
+                        });
+                    }
+                </script>
+            </ul>
+        </div>
     </div>
-    <div class="column-4 menu-items">
-      <ul>
-        <li class="menu-item-1"><a id="home_link" href="" onlick="GotoHome()" >Home</a></li>
-        <li class="menu-item-2"><a id="profile_link" href= "" onlick="GotoProfile()" > Profile</a></li>
-        <li id="logout_link" class="menu-item-3"><a href="/logout">Logout</a></li>
-        <!-- <a href="#" onclick="signOut();">Sign out</a> -->
-        <script>
-          function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-              console.log('User signed out.');
-            });
-          }
-        </script>
-      </ul>
-    </div>
-  </div>
 </div>

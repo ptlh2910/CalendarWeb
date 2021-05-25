@@ -1,18 +1,11 @@
 var express = require('express')
-
 var router = express.Router()
-
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb://sinno.soict.ai:27017";
-var _db;
-
-MongoClient.connect(uri, function (err, db) {
-    if (err) throw err;
-    _db = db.db("CalendarDB");
-});
+var mongo = require('../database/db');
+mongo.connectToServer();
 
 var generated_ID = function () {
-    return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+    var id = (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+    return id;
 };
 
 router.post('/addUser', function (req, res) {
@@ -23,7 +16,7 @@ router.post('/addUser', function (req, res) {
     var email = req.body.email
 
     var data = {
-        "id": generated_ID,
+        "id": generated_ID(),
         "username": username,
         "email": email,
         "password": password,
@@ -31,20 +24,24 @@ router.post('/addUser', function (req, res) {
     }
     if (password == confirm) {
         var query = { username: username };
-        _db.collection("account").find(query).toArray(function (err, result) {
+        db = mongo.getDb();
+        db.collection("account").find(query).toArray(function (err, result) {
             if (err) throw err;
             if (result.length == 0) {
-                _db.collection('account').insertOne(data, function (err, collection) {
+                db.collection('account').insertOne(data, function (err, collection) {
                     if (err) throw err;
                     console.log("Record inserted Successfully!");
 
                 });
-                res.render('home', data);
+
+
+                res.send({ "message": "Sign up successfully!", 'data': data });
             } else {
+                res.send({ "message": "The username were existed" });
             }
         });
     } else {
-
+        res.send({ "message": "The confirm password is invalid! Try again!" })
     }
 
 });
