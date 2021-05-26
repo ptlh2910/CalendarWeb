@@ -75,6 +75,11 @@ app.get('/home', checkAuthenticated, function (req, res) {
     });
     res.render('home', req.user);
 });
+app.get('/ghome', checkAuthenticated, function (req, res) {
+
+    res.render('home', req.user);
+});
+
 app.get('/profile', function (req, res) {
     res.render('profile')
 });
@@ -83,9 +88,6 @@ app.get('/friend', function (req, res) {
     res.render('friend')
 });
 
-app.get('/changeprofile', function (req, res) {
-    res.render('changeprofile')
-});
 
 // xử lý phần đăng nhập bằng facebook
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['profile', 'email'] }));
@@ -113,6 +115,27 @@ app.get('/logout', (res, req) => {
 app.get('/login', function (req, res) {
     res.render('login');
 })
+app.get('/home', function(req, res) {
+    if (req._parsedOriginalUrl.query == null){
+        res.render('error');
+    } else{
+        db = mongo.getDb();
+        username = {"username": req._parsedOriginalUrl.query.split('=')[1]};
+        var result = db.collection('account').findOne(username, function(err, result) {
+        if (err) throw err;
+        if(result){
+            res.render('home', username)   
+        } else{
+            res.render('error');
+        }
+      });  
+    }
+});
+
+app.get('/ghome',checkAuthenticated, function (req, res) {
+
+    res.render('home', req.user);
+});
 
 app.post('/login', (req, res) => {
     let token = req.body.token;

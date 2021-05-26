@@ -6,34 +6,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/stylesheets/login.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id"
+          content="43339122431-re8ubcvgrj5mim4ufqinsf5rlo82kbok.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+
     <title>Sign in & Sign up Form</title>
     <!-- Favicon  -->
     <link rel="icon" href="images/icon.svg">
 </head>
-<body style="background-color: #8FBC8F;">
-    <div class="container" style="background-color: #8FBC8F;">
+
+<body>
+    <canvas></canvas>
+    <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="/auth" class="sign-in-form" method="POST">
-                            <h2 class="title" style="color:#fff;">Sign in</h2>
-                            <div class="input-field">
-                                <i class="fas fa-user"></i>
-                                <input type="text" name="username" placeholder="Username" required />
-                            </div>
-                            <div class="input-field">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" name="password" placeholder="Password" required />
-                            </div>
-                            <input type="submit" value="Login" class="btn solid" style="background-color: #167e56;" />
-
-                            <a href="/forgot" class="forgot" style="color: #fff; font-weight: bold;">Forgot Password</a>
-                </form>
-
-                <form action="register" class="sign-up-form" id='form-1' method="POST">
-                    <h2 class="title" style="color: #fff;" >Sign up</h2>
+                <form id='login-form' action="auth" class="sign-in-form" method="POST">
+                    <h2 class="title" style="color:#fff;">Sign in</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input id="fullname" type="text" placeholder="UserName" name="username" required />
+                        <input type="text" name="username" placeholder="Username" required />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" style="margin-top: 15px;" name="password" placeholder="Password" required />
+                    </div>
+                    <input type="submit" value="Login" class="btn transparent" style="width: 20%; " />
+                    <p id="aaa">Or sign in with</p>
+                    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="margin-top: 10px; "></div>
+                    <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+
+                    <script>
+                        function onSignIn(googleUser) {
+                            var id_token = googleUser.getAuthResponse().id_token;
+                            console.log(`id_token`, id_token)
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/login');
+                            xhr.setRequestHeader('Content-Type', 'application/json');
+                            xhr.onload = function () {
+                                console.log('Signed in as: ' + xhr.responseText);
+                                if (xhr.responseText == 'success') {
+                                    signOut();
+                                    location.assign('/ghome')
+                                }
+                            };
+                            xhr.send(JSON.stringify({ token: id_token }));
+
+                        }
+                    </script>
+                    <script>
+                        function signOut() {
+                            var auth2 = gapi.auth2.getAuthInstance();
+                            auth2.signOut().then(function () {
+                                console.log('User signed out.');
+                            });
+                        }
+                    </script>
+                    <a href="/forgot" class="forgot" style="color: #fff; font-weight: bold; margin-top: 15px;">Forgot Password</a>
+                </form>
+
+                <form id='register-form' action="javascript:void(0);" class="sign-up-form" id='form-1' method="POST">
+                    <h2 class="title" style="color: #fff;">Sign up</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input id="username" type="text" placeholder="UserName" name="username" required />
                         <span class="form-message"></span>
                     </div>
                     <div class="input-field">
@@ -42,16 +80,21 @@
                         <span class="form-message"></span>
                     </div>
                     <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input id="password" type="password" placeholder="Password" name="password" required />
+                        <i class="fas fa-phone"></i>
+                        <input id="phone" type="phone" placeholder="Phone Number" name="phone" required />
                         <span class="form-message"></span>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input id="confirm" type="password" placeholder="confirm" name='confirm' />
+                        <input id="password" type="password" style="margin-top: 20px;" placeholder="Password" name="password" required />
                         <span class="form-message"></span>
                     </div>
-                    <input type="submit" class="btn transparent" value="Sign up"/>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input id="confirm" type="password" style="margin-top: 20px;" placeholder="confirm" name='confirm' />
+                        <span class="form-message"></span>
+                    </div>
+                    <input type="submit" class="btn transparent" value="Sign up" />
                 </form>
             </div>
         </div>
@@ -84,6 +127,7 @@
 
 
     <script src="/javascripts/login.js"></script>
+    <script src="/javascripts/script.js"></script>
     <script>
         Validator({
             form: '#form-1',

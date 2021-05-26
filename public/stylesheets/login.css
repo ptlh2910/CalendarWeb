@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
 * {
     margin: 0;
     padding: 0;
@@ -9,17 +10,37 @@ body {
     font-family: "Montserrat", sans-serif;
     height: 100vh;
     margin: -20px 0 50px;
+    letter-spacing: .01428571em;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.25rem;
 }
 
 .container {
     position: relative;
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-radius: 10px;
     /* box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); */
     overflow: hidden;
     width: 100%;
     max-width: 100%;
     min-height: 100%;
+    height: 100%;
+    letter-spacing: .01428571em;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    /* Background colour if image is unavailable */
+    /* Set a specified height */
+    /* Center the image */
+    background-position: fixed;
+    /* Do not repeat the image */
+    background-repeat: no-repeat;
+    /* Resize the background image to cover the entire container */
+    background-size: cover;
+    position: relative;
 }
 
 .forms-container {
@@ -33,10 +54,12 @@ body {
     transform: translate(-50%, -50%);
     left: 75%;
     width: 50%;
-    transition: 1s 0.5s ease-in-out;
+    transition: 1s 0.2s ease-in-out;
+    transition-delay: 0s;
     display: grid;
     grid-template-columns: 1fr;
     z-index: 5;
+    height: 100%;
 }
 
 form {
@@ -45,20 +68,20 @@ form {
     justify-content: center;
     flex-direction: column;
     padding: 0rem 5rem;
-    transition: all 0.2s 0.7s;
+    transition: all 1s 0.5s;
     overflow: hidden;
     grid-column: 1 / 2;
     grid-row: 1 / 2;
 }
 
-form.sign-up-form {
-    opacity: 0;
-    z-index: 1;
-}
+    form.sign-up-form {
+        opacity: 0;
+        z-index: 1;
+    }
 
-form.sign-in-form {
-    z-index: 2;
-}
+    form.sign-in-form {
+        z-index: 2;
+    }
 
 .title {
     font-size: 2.2rem;
@@ -79,34 +102,34 @@ form.sign-in-form {
     position: relative;
 }
 
-.input-field .form-message {
-    color: #f33a58;
-    font-size: 12px;
-    width: 380px;
-}
+    .input-field .form-message {
+        color: #333;
+        font-size: 12px;
+        width: 380px;
+    }
 
-.input-field i {
-    text-align: center;
-    line-height: 55px;
-    color: #acacac;
-    transition: 0.5s;
-    font-size: 14px;
-}
+    .input-field i {
+        text-align: center;
+        line-height: 55px;
+        color: #acacac;
+        transition: 0.1s;
+        font-size: 14px;
+    }
 
-.input-field input {
-    background: none;
-    outline: none;
-    border: none;
-    line-height: 1;
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: #333;
-}
+    .input-field input {
+        background: none;
+        outline: none;
+        border: none;
+        line-height: 1;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #333;
+    }
 
-.input-field input::placeholder {
-    color: #aaa;
-    font-weight: 500;
-}
+        .input-field input::placeholder {
+            color: #aaa;
+            font-weight: 500;
+        }
 
 .social-text {
     padding: 0.7rem 0;
@@ -133,10 +156,10 @@ form.sign-in-form {
     transition: 0.3s;
 }
 
-.social-icon:hover {
-    color: #4481eb;
-    border-color: #4481eb;
-}
+    .social-icon:hover {
+        color: #4481eb;
+        border-color: #4481eb;
+    }
 
 .btn {
     width: 150px;
@@ -153,9 +176,9 @@ form.sign-in-form {
     transition: 0.5s;
 }
 
-.btn:hover {
-    background-color: #4d84e2;
-}
+    .btn:hover {
+        background-color: #4d84e2;
+    }
 
 .panels-container {
     position: absolute;
@@ -176,17 +199,17 @@ form.sign-in-form {
     right: 48%;
     transform: translateY(-50%);
     /* background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%); */
-    background-image: linear-gradient(-45deg, #167e56 0%, #167e56 100%);
-    background-color: #167e56;
-    transition: 1s ease-in-out;
+    /* background-image: url(https://i.pinimg.com/originals/22/23/43/222343b5ea0dd18694b527d160267c17.jpg);
+    background-color: #167e56;*/
+    transition: 0s ease-in-out;
     border-radius: 50%;
     z-index: 6;
 }
 
 .image {
     width: 100%;
-    transition: transform 1s ease-in-out;
-    transition-delay: 0.4s;
+    transition: transform 0s ease-in-out;
+    transition-delay: 0s;
 }
 
 .panel {
@@ -213,7 +236,7 @@ form.sign-in-form {
 .panel .content {
     color: #fff;
     transition: transform 0.9s ease-in-out;
-    transition-delay: 0.6s;
+    transition-delay: 0s;
 }
 
 .panel h3 {
@@ -252,7 +275,7 @@ form.sign-in-form {
 
 .container.sign-up-mode .left-panel .image,
 .container.sign-up-mode .left-panel .content {
-    transform: translateX(-800px);
+    transform: translateX(-1000px);
 }
 
 .container.sign-up-mode .signin-signup {
@@ -262,7 +285,7 @@ form.sign-in-form {
 .container.sign-up-mode form.sign-up-form {
     opacity: 1;
     z-index: 2;
-    padding-top: 150px;
+    /*padding-top: 150px;*/
 }
 
 .container.sign-up-mode form.sign-in-form {
@@ -290,20 +313,24 @@ form.sign-in-form {
         height: 100vh;
         margin-top: 120px;
     }
+
     .signin-signup {
         width: 100%;
         top: 95%;
         transform: translate(-50%, -100%);
-        transition: 1s 0.6s ease-in-out;
+        transition: 0s 0s ease-in-out;
     }
+
     .signin-signup,
     .container.sign-up-mode .signin-signup {
         left: 50%;
     }
+
     .panels-container {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 2fr 1fr;
     }
+
     .panel {
         flex-direction: row;
         justify-content: space-around;
@@ -311,40 +338,50 @@ form.sign-in-form {
         padding: 2.5rem 8%;
         grid-column: 1 / 2;
     }
+
     .right-panel {
         grid-row: 3 / 4;
     }
+
     .left-panel {
         grid-row: 1 / 2;
     }
+
     .image {
         width: 200px;
         transition: transform 0.9s ease-in-out;
-        transition-delay: 0.4s;
+        transition-delay: 0s;
     }
+
     .panel .content {
         padding-right: 15%;
         transition: transform 0.9s ease-in-out;
-        transition-delay: 0.4s;
+        transition-delay: 0s;
     }
+
     .panel h3 {
         font-size: 1.2rem;
     }
+
     .panel p {
         font-size: 0.7rem;
         padding: 0.5rem 0;
     }
+
     .btn.transparent {
         width: 110px;
         height: 35px;
         font-size: 0.7rem;
     }
+
     button:active {
         transform: scale(0.95);
     }
+
     button:focus {
         outline: none;
     }
+
     .container:before {
         width: 1500px;
         height: 1500px;
@@ -355,23 +392,28 @@ form.sign-in-form {
         top: initial;
         transition: 1s ease-in-out;
     }
+
     .container.sign-up-mode:before {
         transform: translate(-50%, 100%);
         bottom: 32%;
         right: initial;
     }
+
     .container.sign-up-mode .left-panel .image,
     .container.sign-up-mode .left-panel .content {
         transform: translateY(-300px);
     }
+
     .container.sign-up-mode .right-panel .image,
     .container.sign-up-mode .right-panel .content {
         transform: translateY(0px);
     }
+
     .right-panel .image,
     .right-panel .content {
         transform: translateY(300px);
     }
+
     .container.sign-up-mode .signin-signup {
         top: 5%;
         transform: translate(-50%, 0);
@@ -382,21 +424,33 @@ form.sign-in-form {
     form {
         padding: 0 1.5rem;
     }
+
     .image {
         display: none;
     }
+
     .panel .content {
         padding: 0.5rem 1rem;
     }
+
     .container {
         padding: 1.5rem;
     }
-    .container:before {
-        bottom: 72%;
-        left: 50%;
-    }
-    .container.sign-up-mode:before {
-        bottom: 28%;
-        left: 50%;
-    }
+
+        .container:before {
+            bottom: 72%;
+            left: 50%;
+        }
+
+        .container.sign-up-mode:before {
+            bottom: 28%;
+            left: 50%;
+        }
+}
+
+#aaa {
+    color: #c1d8e8;
+    display: inline;
+    margin-top: 15px;
+    margin-bottom: 7px;
 }

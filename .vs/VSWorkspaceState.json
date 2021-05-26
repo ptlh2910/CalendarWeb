@@ -1,11 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\model",
-    "\\public",
     "\\public\\javascripts",
     "\\public\\stylesheets",
     "\\views"
   ],
+  "SelectedNode": "\\views\\error.ejs",
   "PreviewInSolutionExplorer": false
 }
