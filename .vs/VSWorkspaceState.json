@@ -1,10 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\public",
+    "\\public\\images",
+    "\\public\\images\\background",
     "\\public\\javascripts",
     "\\public\\stylesheets",
+    "\\routes",
     "\\views"
   ],
-  "SelectedNode": "\\views\\error.ejs",
+  "SelectedNode": "\\views\\forgot.ejs",
   "PreviewInSolutionExplorer": false
 }

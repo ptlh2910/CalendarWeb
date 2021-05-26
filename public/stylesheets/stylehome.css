@@ -1,0 +1,21 @@
+body {
+    /*background-color: #8FBC8F;*/
+    /* The image */
+    background-image: url(/images/background/tech.jpg);
+    /* Background colour if image is unavailable */
+    /* Set a specified height */
+    /* Center the image */
+    background-position:center;
+    /* Do not repeat the image */
+    background-repeat: repeat;
+    /* Resize the background image to cover the entire container */
+    background-size: cover;
+}
+
+canvas {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
