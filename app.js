@@ -88,18 +88,6 @@ app.get('/friend', function (req, res) {
     res.render('friend')
 });
 
-
-// xử lý phần đăng nhập bằng facebook
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['profile', 'email'] }));
-app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { successRedirect: '/facebook', failureRedirect: '/login' }),
-    function (req, res) {
-        res.redirect('/');
-    }
-);
-app.use(express.json());
-app.use(cookieParser());
-
 // xử lý phần đăng nhập
 app.use('/auth', auth)
 

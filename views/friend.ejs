@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title> 
+    <link rel="stylesheet" href="/stylesheets/home.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <!-- Styles -->
+    <script src="/javascripts/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+
+  </head>
+  <!-- <body> -->
+    <% include ./includes/menu_home.ejs %>
+    <div class="container">
+
+      <div class="row"> 
+        <div class = "column-1">
+          <div class="calendar">
+            <div id ="username-info" class='calander_popip_title'><i class="fa"  aria-hidden="true"></i>
+              </div><!-- 
+              <p id="event_name" style="margin-left: 20px; font-size: 2.5em;margin-top: 15px;margin-bottom: 15px; color: #ace1af;">
+                  <b><info id='-info' style="display: inline;"></info></b></p> -->
+              <p id="time_e" class="pp">
+                  <i>Fullname: <info id='fullname-info' style="display: inline;"></info></i></p>
+              <p id="location_e" class="pp" >
+                  <i>Email: <info id='email-info' style="display: inline;"></info></i></p>
+              <p id="detail_e" class="pp">
+                  <i>Phone Number: <info id='phone-info' style="display: inline;"></info></i></p>
+            <ul style="align-content: center;">
+              <button id="subcribe" class="Subcribe" style="width: 80%;">Subcribe</button>
+              
+            </ul>
+          </div>
+        </div>
+
+        <!-- / College Timetable -->
+        <div class="column-2">
+          <table id ='timetable'>
+          </table> <!-- end table -->
+        </div>
+      </div> <!-- end row -->
+    </div> <!-- end container -->
+    
+    <div class="modal" id = "calendar-form">
+    <div id="calendar-popup">
+
+      <form id="event-form" method="post">
+        <div id="title_event_form" class='calander_popip_title'><i class="fa"  aria-hidden="true"></i>
+          Add Event</div>
+        <ul style="padding-left: 10px; padding-right: 10px;">
+          <li>
+            <label for="event-start"><i class="fa"  aria-hidden="true"></i>
+
+              Date Time</label>
+            <input id="event-start" class='form-control fa' type="datetime-local" name="start" />
+          </li>
+
+          <li>
+            <label for="event-title"><i class="fa"  aria-hidden="true"></i>
+              Event Name</label>
+            <input id="event-title" class='form-control' type="text" value = "" name="title" />
+          </li>
+
+          <li>
+            <label for="event-location"><i class="fa"  aria-hidden="true"></i>
+              Location</label>
+            <input id="event-location" class='form-control' type="text" value = "" name="location" />
+          </li>
+
+          <li>
+            <label for="event-details"><i class="fa" aria-hidden="true"></i>
+              Description</label>
+            <textarea id="event-details" class='form-control' type="text" value = "" name="details"></textarea>
+          </li>
+          <button id="submit_1" style="width: 82%;"> Submit </button>
+        </ul>
+      </form>
+    </div>
+    </div>
+
+
+    <div class="modal" id = "calendar-show-form">
+    <div id="calendar-popup">
+
+      <form id="form-inf" method="POST" action="javascript:void(0);">
+        <div class='calander_popip_title'><i class="fa"  aria-hidden="true"></i>
+          Event Information</div>
+          <p id="event_name" style="margin-left: 20px; font-size: 2.5em;margin-top: 15px;margin-bottom: 15px; color: #ace1af;">
+              <b><info id='event-name-info' style="display: inline;"></info></b></p>
+              <p id="time_e" class="pp">
+              <i>Time: <info id='event-time-info' style="display: inline;"></info></i></p>
+              <p id="location_e" class="pp" >
+              <i>Location: <info id='event-location-info' style="display: inline;"></info></i></p>
+              <p id="detail_e" class="pp">
+              <i>Detail: <info id='event-detail-info' style="display: inline;"></info></i></p>
+        <div id="p_button" style="width:100%">
+          <button class="p_button" id="follow">Follow</button>
+        </div>
+        
+      </form>
+    </div>
+    </div>
+
+
+    <!-- Scripts -->
+    
+    <script src="/javascripts/friend.js"></script>
+    <script src="/javascripts/script.js"></script>
+  </body>
+</html>

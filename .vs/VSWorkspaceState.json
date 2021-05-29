@@ -3,12 +3,12 @@
     "",
     "\\public",
     "\\public\\images",
-    "\\public\\images\\background",
     "\\public\\javascripts",
     "\\public\\stylesheets",
     "\\routes",
-    "\\views"
+    "\\views",
+    "\\views\\includes"
   ],
-  "SelectedNode": "\\views\\forgot.ejs",
+  "SelectedNode": "\\views\\index.ejs",
   "PreviewInSolutionExplorer": false
 }
